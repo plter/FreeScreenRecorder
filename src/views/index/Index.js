@@ -20,7 +20,10 @@ class Index {
         this._btnStartOrStop.onclick = ()=> {
             switch (this.recordState) {
                 case RecordStatus.STOPPED:
-                    this._currentRecorder = new MediaRecorder(this._currentStream, {mimeType: "video/webm;codecs=vp9"});
+                    this._currentRecorder = new MediaRecorder(this._currentStream, {
+                        mimeType: "video/webm;codecs=vp9",
+                        audioBitsPerSecond: 64000
+                    });
                     this._currentChunks = [];
                     this._currentRecorder.ondataavailable = e=>this._currentChunks.push(e.data);
                     this._currentRecorder.start(20);
