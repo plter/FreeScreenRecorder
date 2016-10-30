@@ -17,6 +17,7 @@ class Index {
     }
 
     addListeners() {
+
         this._btnStartOrStop.onclick = ()=> {
             switch (this.recordState) {
                 case RecordStatus.STOPPED:
@@ -40,6 +41,7 @@ class Index {
             }
 
         };
+
         this._btnPauseOrResume.onclick = ()=> {
             switch (this.recordState) {
                 case RecordStatus.RECORDING:
