@@ -79,7 +79,7 @@ class Index {
             video: {
                 mandatory: {
                     chromeMediaSource: 'screen',
-                    minWidth: 1280,
+                    minWidth: 960,
                     maxWidth: 1280,
                     minHeight: 720,
                     maxHeight: 800
