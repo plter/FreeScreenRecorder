@@ -1,5 +1,6 @@
 const RecordStatus = require("./RecordStatus");
 const electron = require("electron");
+const TimeTool = require("../../tools/TimeTool");
 
 class Index {
 
@@ -62,7 +63,7 @@ class Index {
             var a = document.createElement('a');
             a.style.display = 'none';
             a.href = url;
-            a.download = `${new Date().toString()}.webm`;
+            a.download = `${TimeTool.formatDate(new Date())}.webm`;
             document.body.appendChild(a);
             a.click();
             setTimeout(function () {
@@ -79,7 +80,7 @@ class Index {
             video: {
                 mandatory: {
                     chromeMediaSource: 'screen',
-                    minWidth: 960,
+                    minWidth: 1280,
                     maxWidth: 1280,
                     minHeight: 720,
                     maxHeight: 800
