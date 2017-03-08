@@ -19,7 +19,7 @@ class Index {
 
     addListeners() {
 
-        this._btnStartOrStop.onclick = ()=> {
+        this._btnStartOrStop.onclick = () => {
             switch (this.recordState) {
                 case RecordStatus.STOPPED:
                     this._currentRecorder = new MediaRecorder(this._currentStream, {
@@ -28,7 +28,7 @@ class Index {
                         videoBitsPerSecond: 625000
                     });
                     this._currentChunks = [];
-                    this._currentRecorder.ondataavailable = e=>this._currentChunks.push(e.data);
+                    this._currentRecorder.ondataavailable = e => this._currentChunks.push(e.data);
                     this._currentRecorder.start(20);
                     this.recordState = RecordStatus.RECORDING;
                     this._btnSave.disabled = true;
@@ -43,7 +43,7 @@ class Index {
 
         };
 
-        this._btnPauseOrResume.onclick = ()=> {
+        this._btnPauseOrResume.onclick = () => {
             switch (this.recordState) {
                 case RecordStatus.RECORDING:
                     this._currentRecorder.pause();
@@ -56,11 +56,11 @@ class Index {
             }
         };
 
-        this._btnSave.onclick = ()=> {
+        this._btnSave.onclick = () => {
             this._currentBlob = new Blob(this._currentChunks, {type: 'video/webm'});
 
-            var url = window.URL.createObjectURL(this._currentBlob);
-            var a = document.createElement('a');
+            let url = window.URL.createObjectURL(this._currentBlob);
+            let a = document.createElement('a');
             a.style.display = 'none';
             a.href = url;
             a.download = `${TimeTool.formatDate(new Date())}.webm`;
@@ -86,15 +86,15 @@ class Index {
                     maxHeight: 800
                 }
             }
-        }).then(stream=> {
+        }).then(stream => {
             this._currentStream = stream;
 
             this.recordState = RecordStatus.RETRIEVING_AUDIO_STREAM;
             return navigator.mediaDevices.getUserMedia({audio: true});
-        }).then(audioStream=> {
+        }).then(audioStream => {
             this._currentStream.addTrack(audioStream.getTracks()[0]);
             this.recordState = RecordStatus.STOPPED;
-        }).catch(error=> {
+        }).catch(error => {
             alert("设备初始化失败...");
             this._statusSpan.innerHTML = "初始化失败";
             console.error(error)
