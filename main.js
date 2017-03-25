@@ -7,6 +7,8 @@ const Config = require("./src/Config");
 const path = require('path');
 const globalShortcut = electron.globalShortcut;
 
+//additions
+require("./src/main/DialogsImplements");
 
 class Main {
 
@@ -16,10 +18,10 @@ class Main {
 
     createWindow() {
         // Create the browser window.
-        this.mainWindow = new BrowserWindow({width: 380, height: 200});
+        this.mainWindow = new BrowserWindow({width: 380, height: 280});
 
         // and load the index.html of the app.
-        this.mainWindow.loadURL("file://" + path.join(this.getSrcPath(), "views", "index", "index.html"));
+        this.mainWindow.loadURL("file://" + path.join(Config.getRenderersDir(), "index", "index.html"));
 
         // Open the DevTools.
         // this.mainWindow.webContents.openDevTools();
@@ -34,7 +36,7 @@ class Main {
     }
 
     createTray() {
-        this.tray = new electron.Tray(path.join(this.getImagesPath(), "icon_16.png"));
+        this.tray = new electron.Tray(path.join(Config.getImagesDir(), "icon_16.png"));
         const contextMenu = electron.Menu.buildFromTemplate([
             {
                 label: '退出',
@@ -77,17 +79,17 @@ class Main {
 
 
         ipcMain.on("stopped", event => {
-            this.tray.setImage(path.join(this.getImagesPath(), "icon_16.png"));
+            this.tray.setImage(path.join(Config.getImagesDir(), "icon_16.png"));
             event.returnValue = 1;
         });
 
         ipcMain.on("paused", event => {
-            this.tray.setImage(path.join(this.getImagesPath(), "icon_paused_16.png"));
+            this.tray.setImage(path.join(Config.getImagesDir(), "icon_paused_16.png"));
             event.returnValue = 1;
         });
 
         ipcMain.on("recording", event => {
-            this.tray.setImage(path.join(this.getImagesPath(), "icon_recording_16.png"));
+            this.tray.setImage(path.join(Config.getImagesDir(), "icon_recording_16.png"));
             event.returnValue = 1;
         });
 
@@ -114,18 +116,6 @@ class Main {
 
     unregisterAllGlobalShortcuts() {
         globalShortcut.unregisterAll();
-    }
-
-    getResPath() {
-        return path.join(Config.APP_DIR, "res");
-    }
-
-    getImagesPath() {
-        return path.join(this.getResPath(), "images");
-    }
-
-    getSrcPath() {
-        return path.join(Config.APP_DIR, "src");
     }
 }
 
