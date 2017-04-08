@@ -10,6 +10,9 @@
 
 **如果想要最新编译请自己编译**
 
+### v2.0
+[https://pan.baidu.com/s/1nu8K71n](https://pan.baidu.com/s/1nu8K71n)
+
 ### v1.0
 [https://pan.baidu.com/s/1cHvSce](https://pan.baidu.com/s/1cHvSce)
 
