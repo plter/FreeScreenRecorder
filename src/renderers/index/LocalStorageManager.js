@@ -9,6 +9,18 @@ const LocalStorageManager = {
     },
     setDistDir: function (value) {
         localStorage.setItem("distDir", value);
+    },
+    getAudioBps: function (defaultValue) {
+        return localStorage.getItem("audioBps") || defaultValue;
+    },
+    setAudioBps: function (value) {
+        localStorage.setItem("audioBps", value);
+    },
+    getVideoBps: function (defaultValue) {
+        return localStorage.getItem("videoBps") || defaultValue;
+    },
+    setVideoBps: function (value) {
+        localStorage.setItem("videoBps", value);
     }
 };
 

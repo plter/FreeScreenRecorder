@@ -19,6 +19,10 @@ class Index {
         this._btnStartOrStop = document.querySelector("#btn-start-or-stop");
         this._btnPauseOrResume = document.querySelector("#btn-pause-or-resume");
         this._statusSpan = document.querySelector("#status-span");
+        this._videoBpsInput = document.querySelector("#videoBpsInput");
+        this._videoBpsInput.value = LocalStorageManager.getVideoBps(625000);
+        this._audioBpsInput = document.querySelector("#audioBpsInput");
+        this._audioBpsInput.value = LocalStorageManager.getAudioBps(48000);
 
         this._textInputDistDirPath = document.querySelector("#distDirPath");
         //try to read the saved dist dir path
@@ -31,8 +35,8 @@ class Index {
     startRecord() {
         this._currentRecorder = new MediaRecorder(this._currentStream, {
             mimeType: "video/webm;codecs=vp9",
-            audioBitsPerSecond: 64000,
-            videoBitsPerSecond: 625000
+            audioBitsPerSecond: this.getAudioBps(),
+            videoBitsPerSecond: this.getVideoBps()
         });
         this._currentStreamQueue = new StreamQueue(path.join(this.getDistDirTextFieldValue(), `${TimeTool.formatDate(new Date())}.webm`));
         this._currentRecorder.ondataavailable = e => {
@@ -93,6 +97,9 @@ class Index {
         document.querySelector("#btnBrowserForDistDir").onclick = () => {
             this.showSelectDistDirOpenDialog();
         };
+
+        this._audioBpsInput.onchange = e => LocalStorageManager.setAudioBps(this._audioBpsInput.value);
+        this._videoBpsInput.onchange = e => LocalStorageManager.setVideoBps(this._videoBpsInput.value);
     }
 
     showSelectDistDirOpenDialog() {
@@ -188,6 +195,20 @@ class Index {
     disableAllButtons() {
         this._btnPauseOrResume.disabled = true;
         this._btnStartOrStop.disabled = true;
+    }
+
+    /**
+     * Read audio bits per second from text input
+     */
+    getAudioBps() {
+        return parseInt(this._audioBpsInput.value);
+    }
+
+    /**
+     * Read video bits per second from text input
+     */
+    getVideoBps() {
+        return parseInt(this._videoBpsInput.value);
     }
 
     dispatchPausedEvent() {

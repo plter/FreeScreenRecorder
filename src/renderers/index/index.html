@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Free screen recorder</title>
 </head>
-<body>
+<body style="overflow: hidden">
 <div>
     <div>
         <button id="btn-start-or-stop">开始</button>
@@ -12,10 +12,20 @@
         <span id="status-span" style="color: red;"></span>
     </div>
     <hr>
-    <div>
+    <div style="display: flex;flex-direction: row">
         保存目录：
-        <input readonly="readonly" type="text" title="dirpath" id="distDirPath" style="width: 200px;">
+        <input readonly="readonly" type="text" title="dirpath" id="distDirPath" style="flex: 1">
         <button id="btnBrowserForDistDir">浏览</button>
+    </div>
+    <hr>
+    <div>
+        <div>采样率配置(单位Bit/S)：</div>
+        <div style="display: flex;">
+            <span>音频：</span>
+            <input type="number" title="audioInput" id="audioBpsInput" value="48000" style="flex: 1">
+            <span>视频：</span>
+            <input type="number" title="videoInput" id="videoBpsInput" value="625000" style="flex: 1">
+        </div>
     </div>
     <hr>
     <div style="padding-top: 10px;">

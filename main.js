@@ -18,7 +18,7 @@ class Main {
 
     createWindow() {
         // Create the browser window.
-        this.mainWindow = new BrowserWindow({width: 380, height: 280});
+        this.mainWindow = new BrowserWindow({width: 380, height: 300});
 
         // and load the index.html of the app.
         this.mainWindow.loadURL("file://" + path.join(Config.getRenderersDir(), "index", "index.html"));
