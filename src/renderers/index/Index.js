@@ -6,6 +6,7 @@ const di = require("../common/DialogsInterfaces");
 const LocalStorageManager = require("./LocalStorageManager");
 const StreamQueue = require("./StreamQueue");
 const path = require("path");
+const Config = require("../../Config");
 
 class Index {
 
@@ -23,6 +24,7 @@ class Index {
         this._videoBpsInput.value = LocalStorageManager.getVideoBps(625000);
         this._audioBpsInput = document.querySelector("#audioBpsInput");
         this._audioBpsInput.value = LocalStorageManager.getAudioBps(48000);
+        this._btnAbout = document.querySelector("#btn-about");
 
         this._textInputDistDirPath = document.querySelector("#distDirPath");
         //try to read the saved dist dir path
@@ -100,6 +102,10 @@ class Index {
 
         this._audioBpsInput.onchange = e => LocalStorageManager.setAudioBps(this._audioBpsInput.value);
         this._videoBpsInput.onchange = e => LocalStorageManager.setVideoBps(this._videoBpsInput.value);
+
+        this._btnAbout.onclick = () => {
+            window.open(path.join(Config.getRenderersDir(), "about", "About.html"), "关于 FreeScreenRecorder", "width=500,height=300");
+        };
     }
 
     showSelectDistDirOpenDialog() {
