@@ -27,6 +27,9 @@ class Index {
         this._btnAbout = document.querySelector("#btn-about");
         this._sourcesContainer = document.getElementById('tagsContainer');
         this._video = document.getElementById('preview');
+        this._canvas = document.getElementById('canvas');
+        this._ctx = this._canvas.getContext('2d');
+        this._btnRefresh = document.getElementById('refresh');
 
         this._textInputDistDirPath = document.querySelector("#distDirPath");
         //try to read the saved dist dir path
@@ -96,6 +99,7 @@ class Index {
 
         this._btnStartOrStop.onclick = () => this._btnStartOrStopClickedHandler();
         this._btnPauseOrResume.onclick = () => this._btnPauseOrResumeClickedHandler();
+        this._btnRefresh.onclick = () => this.getSources();
 
         this.addIpcRendererListeners();
         document.querySelector("#btnBrowserForDistDir").onclick = () => {
@@ -140,6 +144,7 @@ class Index {
 
             const radios = document.getElementsByName('source')
             radios.forEach(radio => {
+
                 radio.addEventListener('click', () => {
                     this.tryToGetStream(radio.value)
                 })
@@ -164,8 +169,15 @@ class Index {
         }).then(stream => {
             this._currentStream = stream;
 
-            this._video.srcObject = stream;
-            this._video.onloadedmetadata = e => video.play();
+            this._video.srcObject = this._currentStream;
+            this._video.play();
+            this._video.addEventListener('loadedmetadata', () => {
+                render()
+            })
+            const render = () => {
+                this._ctx.drawImage(this._video, 0, 0);
+                requestAnimationFrame(render)
+            }
 
             this.recordState = RecordStatus.RETRIEVING_AUDIO_STREAM;
             return navigator.mediaDevices.getUserMedia({audio: true});
