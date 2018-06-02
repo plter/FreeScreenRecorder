@@ -13,7 +13,7 @@ class Index {
     constructor() {
         this.initUI();
         this.addListeners();
-        this.tryToGetStream();
+        this.getSources();
     }
 
     initUI() {
@@ -25,6 +25,11 @@ class Index {
         this._audioBpsInput = document.querySelector("#audioBpsInput");
         this._audioBpsInput.value = LocalStorageManager.getAudioBps(48000);
         this._btnAbout = document.querySelector("#btn-about");
+        this._sourcesContainer = document.getElementById('tagsContainer');
+        this._video = document.getElementById('preview');
+        this._canvas = document.getElementById('canvas');
+        this._ctx = this._canvas.getContext('2d');
+        this._btnRefresh = document.getElementById('refresh');
 
         this._textInputDistDirPath = document.querySelector("#distDirPath");
         //try to read the saved dist dir path
@@ -94,6 +99,7 @@ class Index {
 
         this._btnStartOrStop.onclick = () => this._btnStartOrStopClickedHandler();
         this._btnPauseOrResume.onclick = () => this._btnPauseOrResumeClickedHandler();
+        this._btnRefresh.onclick = () => this.getSources();
 
         this.addIpcRendererListeners();
         document.querySelector("#btnBrowserForDistDir").onclick = () => {
@@ -128,13 +134,32 @@ class Index {
         });
     }
 
-    tryToGetStream() {
+    getSources() {
+        electron.desktopCapturer.getSources({
+            types: ['screen', 'window']
+        }, (err, sources) => {
+            if (err) throw err
+            const tags = sources.map(source => `<input type="radio" name="source" value="${source.id}" />${source.name}<br />`)
+            this._sourcesContainer.innerHTML = tags.join('')
+
+            const radios = document.getElementsByName('source')
+            radios.forEach(radio => {
+
+                radio.addEventListener('click', () => {
+                    this.tryToGetStream(radio.value)
+                })
+            })
+        })
+    }
+
+    tryToGetStream(sourceId) {
         this.recordState = RecordStatus.RETRIEVING_SCREEN_STREAM;
         navigator.mediaDevices.getUserMedia({
             audio: false,
             video: {
                 mandatory: {
-                    chromeMediaSource: 'screen',
+                    chromeMediaSource: 'desktop',
+                    chromeMediaSourceId: sourceId,
                     minWidth: 1280,
                     maxWidth: 1280,
                     minHeight: 720,
@@ -143,6 +168,16 @@ class Index {
             }
         }).then(stream => {
             this._currentStream = stream;
+
+            this._video.srcObject = this._currentStream;
+            this._video.play();
+            this._video.addEventListener('loadedmetadata', () => {
+                render()
+            })
+            const render = () => {
+                this._ctx.drawImage(this._video, 0, 0);
+                requestAnimationFrame(render)
+            }
 
             this.recordState = RecordStatus.RETRIEVING_AUDIO_STREAM;
             return navigator.mediaDevices.getUserMedia({audio: true});
