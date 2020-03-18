@@ -1,0 +1,21 @@
+<div id="root" style="padding: 10px;display: flex;flex-direction: column;">
+    <h3>关于 ScreenRecorder</h3>
+    <div id="version"></div>
+    <div>
+        <p>ScreenRecorder是北京顶级云加科技有限公司开发的录屏软件</p>
+        <p>
+            公司官网：
+            <a href="#" @click="btnGotoYunpClicked">https://yunp.top</a>
+        </p>
+    </div>
+    <div style="padding-top: 10px;flex: 1;">
+        <div>全局热键说明</div>
+        <ul>
+            <li>开始或停止 : Command(Ctrl) + 8</li>
+            <li>暂停或继续 : Command(Ctrl) + 9</li>
+        </ul>
+    </div>
+    <div style="text-align: center;">
+        <button id="btn-close" class="btn btn-dark" @click="btnCloseClicked">关闭</button>
+    </div>
+</div>

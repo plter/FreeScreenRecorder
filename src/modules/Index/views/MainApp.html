@@ -1,1 +1,43 @@
-<div>Hello World</div>
+<div id="root" style="display: flex;flex-direction: column;font-size: 12pt;padding: 0.5rem">
+    <div style="flex: 1;"></div>
+    <div style="display: flex;flex-direction: row;align-items: center;background-color: white;">
+        <div class="btn-group" role="group">
+            <button href="#" class="btn btn-outline-dark" @click="mainMenuClicked">
+                <span class="fa fa-bars"></span>
+            </button>
+            <button href="#" class="btn btn-outline-dark" @click="btnShowDonateWindowClicked">
+                <i class="fab fa-weixin"></i>
+            </button>
+            <button href="#" class="btn btn-outline-dark" id="btn-show-settings-window">
+                <span class="fa fa-cog"></span>
+            </button>
+            <button href="#" class="btn btn-outline-dark" id="btn-show-video-library">
+                <span class="fa fa-film"></span>
+            </button>
+        </div>
+        <div style="flex: 1;"></div>
+        <div class="btn-group" role="group">
+            <button id="btn-start-or-stop" class="btn btn-outline-danger"><span class="fa fa-circle"></span>
+            </button>
+            <button id="btn-pause-or-resume" class="btn btn-outline-danger"><span class="fa fa-pause"></span>
+            </button>
+        </div>
+    </div>
+    <div style="height: 10px"></div>
+    <div id="select-audio-input-container"
+         style="text-align: center;display: flex;flex-direction: row;align-items: center;padding: 0 10px;">
+        <input type="checkbox" id="checkbox-include-audio-input" v-model="include_audio">
+        <div style="width: 3px;"></div>
+        <label for="checkbox-include-audio-input" style="display: flex;margin: 0;">音频输入</label>
+        <div style="width: 3px;"></div>
+        <select @change="selectChangeHandler" :disabled="!include_audio" v-model="include_audio"
+                style="display: inline-block;flex: 1;"
+                class="form-control"
+                id="select-audio-input">
+            <option v-for="o in audio_devices" :value="o.deviceId">
+                {{o.label}}
+            </option>
+        </select>
+    </div>
+    <div style="flex: 1;"></div>
+</div>
