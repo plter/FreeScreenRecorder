@@ -1,3 +1,5 @@
 .idea
 node_modules
 .DS_Store
+ProjectTpl/about_renderer.js
+ProjectTpl/index_renderer.js
