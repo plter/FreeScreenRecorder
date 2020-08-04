@@ -1,13 +1,8 @@
-import "bootstrap/dist/css/bootstrap.min.css"
 import "./styles/style.css"
-import MainApp from "./controllers/MainApp";
-
-window.jQuery = window.$ = require("jquery");
-require("popper.js");
-require("bootstrap");
+import Facade from "../../libs/puremvc/Facade";
+import MainAppMediator from "./controllers/MainAppMediator";
+import Constants from "./Constants";
 
 
-let rootEl = document.createElement("div");
-document.body.appendChild(rootEl);
-
-new MainApp().$mount(rootEl);
+let facade = Facade.getInstance(Constants.Facades.MAIN);
+facade.registerMediator(new MainAppMediator());

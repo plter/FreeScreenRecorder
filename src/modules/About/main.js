@@ -2,11 +2,6 @@ import Vue from "vue/dist/vue.min"
 import Tpl from "./MainApp.html"
 
 import "./style.css"
-import "bootstrap/dist/css/bootstrap.min.css"
-
-window.jQuery = window.$ = require("jquery");
-require("popper.js");
-require("bootstrap");
 
 const MainApp = Vue.component("main-app", {
     template: Tpl,
