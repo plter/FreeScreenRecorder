@@ -14,9 +14,18 @@
         </div>
         <div style="flex: 1;"></div>
         <div class="btn-group" role="group">
-            <button id="btn-start-or-stop" class="btn btn-outline-danger"><span class="fa fa-circle"></span>
+            <button id="btn-start-or-stop"
+                    v-if="recordState=='stopped'||recordState=='recording'"
+                    class="btn btn-outline-danger" @click="btnStartOrStopClicked">
+                <span class="fa fa-circle" v-if="recordState=='stopped'"></span>
+                <span class="fa fa-stop" v-else></span>
             </button>
-            <button id="btn-pause-or-resume" class="btn btn-outline-danger"><span class="fa fa-pause"></span>
+            <button id="btn-pause-or-resume"
+                    v-if="recordState=='recording'||recordState=='paused'"
+                    class="btn btn-outline-danger"
+                    @click="btnPauseOrResumeClicked">
+                <span class="fa fa-pause" v-if="recordState=='recording'"></span>
+                <span class="fa fa-redo" v-else></span>
             </button>
         </div>
     </div>
@@ -27,7 +36,7 @@
         <div style="width: 3px;"></div>
         <label for="checkbox-include-audio-input" style="display: flex;margin: 0;">音频输入</label>
         <div style="width: 3px;"></div>
-        <select @change="selectChangeHandler" :disabled="!include_audio" v-model="include_audio"
+        <select :disabled="!include_audio" v-model="selected_audio_device"
                 style="display: inline-block;flex: 1;"
                 class="form-control"
                 id="select-audio-input">

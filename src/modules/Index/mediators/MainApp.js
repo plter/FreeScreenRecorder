@@ -1,6 +1,7 @@
 import Vue from "vue/dist/vue.min"
 import Tpl from "../views/MainApp.html"
 import Dialogs from "../../commons/Dialogs";
+import RecordState from "../../commons/RecordState";
 
 
 const MainApp = Vue.component("main-app", {
@@ -8,14 +9,28 @@ const MainApp = Vue.component("main-app", {
     data() {
         return {
             include_audio: true,
-            audio_devices: []
+            audio_devices: [],
+            selected_audio_device: "",
+            recordState: RecordState.STOPPED
         };
     },
 
     mounted() {
+        this.loadAudioDevices();
         this.buildMainMenu();
     },
     methods: {
+
+        async loadAudioDevices() {
+            let devices = await navigator.mediaDevices.enumerateDevices();
+            console.log(devices);
+            devices.forEach(value => {
+                if (value.kind == "audioinput") {
+                    this.audio_devices.push(value);
+                }
+            });
+            this.selected_audio_device = this.audio_devices[0].deviceId;
+        },
 
         createMenuItem(label, clickCallback, iconPath, type) {
             return new window.electron.remote.MenuItem({
@@ -37,15 +52,33 @@ const MainApp = Vue.component("main-app", {
             this._mainMenu.append(this.createMenuItem("退出", () => window.close(), window.path.join(window.appPath, "res", "icons", "MaterialDesignIcons", "ic_highlight_off_black_18dp.png")));
         },
 
-        selectChangeHandler(e) {
-        },
-
         mainMenuClicked(e) {
             this._mainMenu.popup({x: 8, y: 60});
         },
 
         btnShowDonateWindowClicked(e) {
             Dialogs.showDonateDialog();
+        },
+
+        btnStartOrStopClicked(e) {
+            // TODO
+
+
+            if (this.recordState == RecordState.STOPPED) {
+                this.recordState = RecordState.RECORDING;
+            } else {
+                this.recordState = RecordState.STOPPED;
+            }
+        },
+
+        btnPauseOrResumeClicked(e) {
+            // TODO
+
+            if (this.recordState == RecordState.RECORDING) {
+                this.recordState = RecordState.PAUSED;
+            } else {
+                this.recordState = RecordState.RECORDING;
+            }
         }
     }
 });
