@@ -2,7 +2,7 @@
   "scripts": {
     "build_release": "webpack --mode=production",
     "watch_debug": "webpack --mode=development --watch",
-    "install_dependencies": "npm install --registry=https://registry.npm.taobao.org"
+    "install_dependencies": "npm install --registry=https://registry.npmmirror.com"
   },
   "devDependencies": {
     "css-loader": "^3.4.2",
