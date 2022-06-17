@@ -13,7 +13,7 @@
   "author": "yunp.top",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^9.4.0"
+    "electron": "^15.5.5"
   },
   "dependencies": {
     "bootstrap": "^4.5.0",
